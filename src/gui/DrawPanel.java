@@ -1,11 +1,9 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -27,8 +25,10 @@ public class DrawPanel extends javax.swing.JPanel implements ChangeListener {
     private final long seed = 48L;
     private final Dimension dimension;
     private BufferedImage image;
+    private final double offset = .05;
     private final int xmax = 100;
-
+    private double fx;
+    private double fy;
     /**
      * Creates new form DrawPanel
      */
@@ -41,8 +41,11 @@ public class DrawPanel extends javax.swing.JPanel implements ChangeListener {
     private void initalize() {
         simulation = new SimulationExt(n, seed);
         simulation.addChangeListenr(this);
-        initImage();
-
+        image = new BufferedImage(dimension.width, dimension.height,
+                BufferedImage.TYPE_INT_ARGB);
+        clearImage();
+        fx = (1 - 2 * offset) * dimension.width / (2 * xmax);
+        fy = 10. * (1 - 2 * offset) * dimension.height;
     }
 
     @Override
@@ -51,9 +54,7 @@ public class DrawPanel extends javax.swing.JPanel implements ChangeListener {
         createImage(walkers);
     }
 
-    private void initImage() {
-        image = new BufferedImage(dimension.width, dimension.height,
-                BufferedImage.TYPE_INT_ARGB);
+    private void clearImage() {
         Color bg = Color.WHITE;
         Graphics2D g = (Graphics2D) image.getGraphics();
         g.setColor(bg);
@@ -61,13 +62,11 @@ public class DrawPanel extends javax.swing.JPanel implements ChangeListener {
     }
 
     private void createImage(List<Walker> walkers) {
-        initImage();
+        clearImage();
         List<Point2D.Double> pList = PositionHistogram.getHist(walkers, -xmax, xmax);
         Graphics2D g = (Graphics2D) image.getGraphics();
         g.setColor(Color.BLUE);
-        g.translate(.5 * dimension.width, .95 * dimension.height);
-        double fx = .9 * dimension.width / (2 * xmax);
-        double fy = 10.*.9 * dimension.height;
+        g.translate(offset * dimension.width, (1 - offset) * dimension.height);
         int numBin = pList.size();
         double w = 2. * xmax / numBin;
         g.scale(1, -1);
