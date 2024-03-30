@@ -7,7 +7,8 @@ import javax.swing.event.ChangeListener;
 import model.Simulation;
 
 /**
- *
+ * Extended simulation class with a thread
+ * 
  * @author tadaki
  */
 public class SimulationExt extends Simulation implements Runnable {
@@ -29,6 +30,7 @@ public class SimulationExt extends Simulation implements Runnable {
     public void run() {
         while (running) {
             this.oneStep();
+            //Every 10 steps, notify the listeners
             if (t % 10 == 0) {
                 listeners.forEach(
                         li -> li.stateChanged(new ChangeEvent(this)));
@@ -40,10 +42,20 @@ public class SimulationExt extends Simulation implements Runnable {
         }
     }
 
+    /**
+     * Add a change listener
+     * 
+     * @param li listener
+     */
     public void addChangeListenr(ChangeListener li) {
         listeners.add(li);
     }
 
+    /**
+     * Remove a change listener
+     * 
+     * @param li listener
+     */
     public void removeChangeListener(ChangeListener li) {
         if (listeners.contains(li)) {
             listeners.remove(li);

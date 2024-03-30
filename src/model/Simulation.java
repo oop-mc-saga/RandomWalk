@@ -15,9 +15,12 @@ public class Simulation {
     private final List<Walker> walkers;//list of walkers
     private double p;//probability of moving right
     private int n;//the number of walkers
-    private final Random random;
-    protected int t=0;
+    private final Random random;//random number generator
+    protected int t = 0;//time step
+    
     /**
+     * Constructor
+     * 
      * @param n the number of walkers
      * @param seed
      */
@@ -26,23 +29,26 @@ public class Simulation {
     }
 
     /**
+     * Constructor
+     * 
      * @param n the number of walkers
      * @param p probability of moving right
      * @param seed
      */
     public Simulation(int n, double p,long seed) {
-        walkers = Collections.synchronizedList(new ArrayList<>());
         this.p = p;
         this.n = n;
-        //initializing walkers
+        //initialize random number generator
         this.random = new Random(seed);
+        //initializing walkers
+        walkers = Collections.synchronizedList(new ArrayList<>());
         for (int i = 0; i < n; i++) {
             walkers.add(new Walker(0, p,random));
         }
     }
 
     /**
-     * Clear all walkers and create new list
+     * Clear all walkers and generate new walkers
      */
     public void initialize() {
         walkers.clear();
@@ -56,12 +62,11 @@ public class Simulation {
      * update one step
      */
     public void oneStep() {
-        List<Integer> pList = Collections.synchronizedList(new ArrayList<>());
-        //update all walkers and store positions of new walker's positions
-        walkers.stream().map(w -> w.walk()).forEachOrdered(x -> pList.add(x));
+        walkers.forEach(w->w.walk());
         t += 1;
     }
 
+    //*** setters and getters ****
     public List<Walker> getWalkers() {
         return walkers;
     }

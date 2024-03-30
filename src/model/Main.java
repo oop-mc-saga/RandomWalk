@@ -6,7 +6,8 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- *
+ * Main class for simulation of one dimensional simple random walk
+ * 
  * @author tadaki
  */
 public class Main {
@@ -17,10 +18,11 @@ public class Main {
      */
     public static void main(String[] args) throws IOException {
         int n = 100000;//The number of walkers
-        int tmax = 1000;//The number of steps
-        long seed = 48L;
-        Simulation sys = new Simulation(n,seed);
-        for (int t = 0; t < tmax; t++) {
+        int tMax = 1000;//The number of steps
+        long seed = 48L;//seed for random number generator
+
+        Simulation sys = new Simulation(n, seed);//create a new simulation
+        for (int t = 0; t < tMax; t++) {//update the system tMax times
             sys.oneStep();
         }
         //Creating histogram
@@ -28,6 +30,7 @@ public class Main {
                 = PositionHistogram.getHist(sys.getWalkers());
         String filename = "Fundamental" 
                 + "-output-" + String.valueOf(n) + ".txt";
+        //output the histogram to a file
         try ( PrintStream out = new PrintStream(filename)) {
             plist.forEach(p -> out.println(p.x + " " + p.y));
         }

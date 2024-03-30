@@ -35,24 +35,24 @@ public class PositionHistogram {
      * Getting histogram of positions
      *
      * @param walkers target walkers
-     * @param xmin
-     * @param xmax
-     * @return
+     * @param xMin minimum value of x
+     * @param xMax maximum value of x
+     * @return histogram
      */
     public static List<Point2D.Double> getHist(List<Walker> walkers, 
-            int xmin, int xmax) {
+            int xMin, int xMax) {
 
-        //Creating the histogram
-        int h[] = new int[xmax - xmin + 1];
+        //Creating an array for the histogram
+        int h[] = new int[xMax - xMin + 1];
         for (Walker w : walkers) {
-            int k = w.getX() - xmin;
+            int k = w.getX() - xMin;
             h[k]++;
         }
-        //converting histogram into list
+        //converting histogram array into list
         List<Point2D.Double> list
                 = Collections.synchronizedList(new ArrayList<>());
         for (int i = 0; i < h.length; i += 2) {
-            double x = i + xmin;
+            double x = i + xMin;//position
             //Noticing the bin width is 2
             double y = (double) h[i] / walkers.size() / 2.;
             list.add(new Point2D.Double(x, y));
@@ -61,12 +61,12 @@ public class PositionHistogram {
     }
 
     public static Point getMinMax(List<Walker> walkers) {
-        int xmax = walkers.get(0).getX();
-        int xmin = xmax;
+        int xMax = walkers.get(0).getX();
+        int xMin = xMax;
         for (Walker w : walkers) {
-            xmax = Math.max(xmax, w.getX());
-            xmin = Math.min(xmin, w.getX());
+            xMax = Math.max(xMax, w.getX());
+            xMin = Math.min(xMin, w.getX());
         }
-        return new Point(xmin, xmax);
+        return new Point(xMin, xMax);
     }
 }
