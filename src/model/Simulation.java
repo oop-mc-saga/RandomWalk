@@ -22,10 +22,10 @@ public class Simulation {
      * Constructor
      * 
      * @param n the number of walkers
-     * @param seed
+     * @param random random number generator
      */
-    public Simulation(int n,long seed) {
-        this(n, 0.5,seed);
+    public Simulation(int n,Random random) {
+        this(n, 0.5,random);
     }
 
     /**
@@ -33,13 +33,13 @@ public class Simulation {
      * 
      * @param n the number of walkers
      * @param p probability of moving right
-     * @param seed
+     * @param random random number generator
      */
-    public Simulation(int n, double p,long seed) {
+    public Simulation(int n, double p,Random random) {
         this.p = p;
         this.n = n;
         //initialize random number generator
-        this.random = new Random(seed);
+        this.random = random;
         //initializing walkers
         walkers = Collections.synchronizedList(new ArrayList<>());
         for (int i = 0; i < n; i++) {

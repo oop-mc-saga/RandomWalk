@@ -1,11 +1,10 @@
-package modelExt;
+package continuousModel;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import model.Simulation;
+import randomNumbers.*;
 
 /**
  * Extended simulation class with a thread
@@ -17,13 +16,8 @@ public class SimulationExt extends Simulation implements Runnable {
     private volatile boolean running = false;
     private final List<ChangeListener> listeners;
 
-    public SimulationExt(int n, Random random) {
+    public SimulationExt(int n, AbstractRandom random) {
         super(n, random);
-        listeners = new ArrayList<>();
-    }
-
-    public SimulationExt(int n, double p, Random random) {
-        super(n, p, random);
         listeners = new ArrayList<>();
     }
 
