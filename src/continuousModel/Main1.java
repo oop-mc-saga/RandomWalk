@@ -13,7 +13,7 @@ import randomNumbers.*;
  * 
  * @author tadaki
  */
-public class Main {
+public class Main1 {
 
     /**
      * @param args the command line arguments
@@ -23,7 +23,7 @@ public class Main {
         int n = 100000;//The number of walkers
         int tMax = 1000;//The number of steps
         long seed = 48L;//seed for random number generator
-        Uniform random = new Uniform(-1, 1., seed);
+        AbstractRandom random = new Transform(x->-Math.log(1-x), seed);
         Simulation sys = new Simulation(n, random);//create a new simulation
         for (int t = 0; t < tMax; t++) {//update the system tMax times
             sys.oneStep();
@@ -48,8 +48,8 @@ public class Main {
             histogram.put(walker.getX());
         }
         List<Point2D.Double>pList =  histogram.calculateFrequency();
-        String filename = "ContinuousHistogram" 
-                + "-output-" + String.valueOf(n) + ".txt";
+        String filename = "Exponential" 
+                + "-output-" + String.valueOf(tMax) + ".txt";
         //output the histogram to a file
         try ( PrintStream out = new PrintStream(filename)) {
             pList.forEach(p -> out.println(p.x + " " + p.y));

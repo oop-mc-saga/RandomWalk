@@ -31,7 +31,7 @@ public class Main {
         List<Point2D.Double> plist
                 = PositionHistogram.getHist(sys.getWalkers());
         String filename = "Histogram" 
-                + "-output-" + String.valueOf(n) + ".txt";
+                + "-output-" + String.valueOf(tMax) + ".txt";
         //output the histogram to a file
         try ( PrintStream out = new PrintStream(filename)) {
             plist.forEach(p -> out.println(p.x + " " + p.y));

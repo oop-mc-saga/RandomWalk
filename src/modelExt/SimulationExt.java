@@ -9,7 +9,7 @@ import model.Simulation;
 
 /**
  * Extended simulation class with a thread
- * 
+ *
  * @author tadaki
  */
 public class SimulationExt extends Simulation implements Runnable {
@@ -33,8 +33,7 @@ public class SimulationExt extends Simulation implements Runnable {
             this.oneStep();
             //Every 10 steps, notify the listeners
             if (t % 10 == 0) {
-                listeners.forEach(
-                        li -> li.stateChanged(new ChangeEvent(this)));
+                fireStateChanged();
             }
             try {
                 Thread.sleep(100);
@@ -42,10 +41,15 @@ public class SimulationExt extends Simulation implements Runnable {
             }
         }
     }
+    
+    private void fireStateChanged() {
+        listeners.forEach(
+                li -> li.stateChanged(new ChangeEvent(this)));
+    }
 
     /**
      * Add a change listener
-     * 
+     *
      * @param li listener
      */
     public void addChangeListenr(ChangeListener li) {
@@ -54,7 +58,7 @@ public class SimulationExt extends Simulation implements Runnable {
 
     /**
      * Remove a change listener
-     * 
+     *
      * @param li listener
      */
     public void removeChangeListener(ChangeListener li) {
