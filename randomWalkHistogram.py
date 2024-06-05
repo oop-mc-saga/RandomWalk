@@ -1,13 +1,25 @@
 import matplotlib.pyplot as plt
 import math
+"""
+This python code is used to draw the histogram of the random walk
+
+
+"""
+
 
 def normal(x: float, m: float, sigma: float) -> float:
     """
     Normal distribution function
-    :param x: x random variable
-    :param m: mean
-    :param sigma: standard deviation
-    :return: normal distribution value
+
+    Parameters
+    ----------
+    x: x random variable
+    m: mean
+    sigma: standard deviation
+    
+    Returns
+    -------
+    normal distribution value
     """
     return (1 / math.sqrt(2 * math.pi) / sigma) * math.exp(
         -(x - m) * (x - m) / 2 / sigma / sigma)
@@ -15,8 +27,15 @@ def normal(x: float, m: float, sigma: float) -> float:
 def readData(filename: str) -> tuple[list[float], list[float]]:
     """
     Read data from file
-    :param filename: file name
-    :return: x and y list
+
+    Parameters
+    ----------
+    filename: file name
+
+    Returns
+    -------
+    xl: x list
+    yl: y list
     """
     with open(filename, "r") as f:  # read data from file
         lines: list[str] = f.readlines()
@@ -34,14 +53,17 @@ def drawHistogram(
     w=1.5, t=1000, n=1024, toPDF = False) -> None:
     """
     Draw histogram
-    :param prefix: prefix for file name
-    :param xmin: x minimum
-    :param xmax: x maximum
-    :param mean: mean of the distribution
-    :param sigma: standard deviation of the distribution
-    :param w: width of the bar
-    :param t: number of steps
-    :param n: number of points for drawing the normal distribution
+
+    Parameters
+    ----------
+    prefix: prefix for file name
+    xmin: x minimum
+    xmax: x maximum
+    mean: mean of the distribution
+    sigma: standard deviation of the distribution
+    w: width of the bar
+    t: number of steps for showing parameter in title
+    n: number of points for drawing the normal distribution
     """
     dataFilename = f"{prefix}-output-{t}.txt"  # file name for input data
     xl, yl = readData(dataFilename)
@@ -52,7 +74,7 @@ def drawHistogram(
     xld: list[float] = [(xmax - xmin) * x / n + xmin for x in range(n)]
     yld: list[float] = [normal(x, mean, sigma) for x in xld]
     ax.plot(xld, yld, c="r", linewidth=2)
-    plt.show()
+    fig.show()
     if toPDF:
         pdfFileName = f"{prefix}-histogram-{t}.pdf"
         fig.savefig(pdfFileName)
@@ -60,7 +82,6 @@ def drawHistogram(
 
 if __name__ == "__main__":
     t = 1000
-    # plt.rcParams['font.size']=28
     plt.rcParams["font.family"] = "Times New Roman"
     plt.rcParams["mathtext.fontset"] = "cm"
     plt.rcParams["mathtext.default"] = "it"
