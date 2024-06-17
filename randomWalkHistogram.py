@@ -50,7 +50,7 @@ def readData(filename: str) -> tuple[list[float], list[float]]:
 def drawHistogram(
     prefix: str,
     xmin: float, xmax: float, mean: float, sigma: float,
-    w=1.5, t=1000, n=1024, toPDF = False) -> None:
+    w:float=1.5, t:int=1000, n:int=1024, toPDF:bool = False) -> None:
     """
     Draw histogram
 
@@ -67,7 +67,7 @@ def drawHistogram(
     """
     dataFilename = f"{prefix}-output-{t}.txt"  # file name for input data
     xl, yl = readData(dataFilename)
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots()#type: ignore
     ax.bar(xl, yl, w)
     ax.set_title(f"Histogram for {prefix} Case ($t={t}$)")
     ax.set_xlabel("$x$")
@@ -77,7 +77,7 @@ def drawHistogram(
     fig.show()
     if toPDF:
         pdfFileName = f"{prefix}-histogram-{t}.pdf"
-        fig.savefig(pdfFileName)
+        fig.savefig(pdfFileName)#type: ignore
 
 
 if __name__ == "__main__":
@@ -88,4 +88,4 @@ if __name__ == "__main__":
     toPDF = True
     # drawHistogram("Histogram", -150, 150, 0, math.sqrt(t), w=1.8, t=t, toPDF=toPDF)
     # drawHistogram('Uniform',-40,40,0,math.sqrt(t/12),w=.8,t=t, toPDF=toPDF)
-    drawHistogram('Exponential',800,1200,t,math.sqrt(t),t=t,w=.8,toPDF=toPDF)   
+    # drawHistogram('Exponential',800,1200,t,math.sqrt(t),t=t,w=.8,toPDF=toPDF)   

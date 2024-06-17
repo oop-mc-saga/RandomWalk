@@ -3,4 +3,4 @@ dist/
 nbproject/private/
 *.txt
 *.pdf
-exercise/*
+src/exercise/*
